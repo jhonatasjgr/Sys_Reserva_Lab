@@ -1,0 +1,10 @@
+reserva em atraso       - OK
+paginação do histórico  - OK
+sweet alert             - OK
+
+filtros                 - Só consigo fazer com angular component
+ordenação de colunas    - Só consigo fazer com angular component
+
+
+Implementações Futuras:
+    1. Calendário

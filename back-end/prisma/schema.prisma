@@ -1,0 +1,87 @@
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model tipo_usuario {
+  id        Int       @id @default(autoincrement())
+  nome_tipo String    @unique @db.VarChar(50) // Adicionado @unique para garantir nomes únicos
+  usuarios  Usuario[]
+
+  @@map("tipos_usuario") // Nome da tabela no banco de dados para evitar conflito
+}
+
+model tipo_sala {
+  id        Int     @id @default(autoincrement())
+  nome_tipo String  @unique @db.VarChar(50) // Adicionado @unique para garantir nomes únicos
+  salas     Sala[]
+
+  @@map("tipos_sala") // Nome da tabela no banco de dados para evitar conflito
+}
+
+model status_reserva {
+  id          Int       @id @default(autoincrement())
+  nome_status String    @unique @db.VarChar(50) // Adicionado @unique para garantir nomes únicos
+  reservas    Reserva[]
+
+  @@map("status_reserva") // Nome da tabela no banco de dados para evitar conflito
+}
+
+model Usuario {
+  id              Int          @id @default(autoincrement())
+  nome            String       @db.VarChar(100)
+  email           String       @unique
+  senha           String       @db.VarChar(255) // senha deverá ser criptografada
+
+  reservas        Reserva[]
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  status          Boolean      @default(false) // status ativo ou inativo (inativo por padrão)
+
+  // Novo relacionamento com tipo_usuario
+  tipo_usuarioId  Int
+  tipo_usuario    tipo_usuario @relation(fields: [tipo_usuarioId], references: [id])
+
+  @@map("usuarios") // nome da tabela no banco de dados
+}
+
+model Sala {
+  id           Int       @id @default(autoincrement())
+  nome         String    @db.VarChar(100)
+  capacidade   Int
+  reservas     Reserva[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  // Novo relacionamento com tipo_sala
+  tipo_salaId  Int
+  tipo_sala    tipo_sala @relation(fields: [tipo_salaId], references: [id])
+
+  @@map("salas") // nome da tabela no banco de dados
+}
+
+model Reserva {
+  id             Int          @id @default(autoincrement())
+  dataInicio     DateTime
+  dataFim        DateTime
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  observacao     String?      @db.VarChar(255)
+
+  usuarioId      Int
+  usuario        Usuario      @relation(fields: [usuarioId], references: [id])
+
+  salaId         Int
+  sala           Sala         @relation(fields: [salaId], references: [id])
+
+  statusReservaId Int 
+  status_reserva  status_reserva @relation(fields: [statusReservaId], references: [id])
+
+  @@map("reservas") 
+}

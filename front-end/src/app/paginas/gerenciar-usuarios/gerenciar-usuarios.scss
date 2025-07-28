@@ -1,0 +1,87 @@
+.gerenciar-usuarios-container {
+  padding: 20px;
+  h2 {
+    margin-bottom: 20px;
+    color: #333;
+  }
+  .usuarios-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    background-color: #fff;
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 12px 15px;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+      color: #555;
+    }
+
+    tbody tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    tbody tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    .status-active {
+      color: #28a745; /* Verde */
+      font-weight: bold;
+    }
+    .status-inactive {
+      color: #dc3545; /* Vermelho */
+      font-weight: bold;
+    }
+
+    .actions-cell {
+      white-space: nowrap;
+      button {
+        padding: 8px 12px;
+        margin-right: 8px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.9em;
+        transition: background-color 0.3s ease;
+
+        &.toggle-active-button {
+          background-color: #007bff; /* Azul para ativar */
+          color: white;
+          &:hover { background-color: #0056b3; }
+        }
+
+        &.toggle-inactive-button {
+          background-color: #6c757d; /* Cinza para desativar */
+          color: white;
+          &:hover { background-color: #5a6268; }
+        }
+        &.edit-button {
+            background-color: #ffc107;
+            color: #333;
+            &:hover { background-color: #e0a800; }
+        }
+        &.delete-button {
+            background-color: #dc3545;
+            color: white;
+            &:hover { background-color: #c82333; }
+        }
+      }
+    }
+  }
+  .back-link {
+    margin-top: 20px;
+    a {
+      color: #007bff;
+      text-decoration: none;
+      &:hover { text-decoration: underline; }
+    }
+  }
+}

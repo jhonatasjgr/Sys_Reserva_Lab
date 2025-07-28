@@ -1,0 +1,11 @@
+.main-container {
+  display: flex;
+  height: 100vh; // Ocupa a altura total da viewport
+
+  .content-area {
+    flex-grow: 1; // Ocupa o restante do espaço horizontal
+    padding: 20px;
+    overflow-y: auto; // Permite rolagem se o conteúdo for grande
+    background-color: #f8f9fa;
+  }
+}

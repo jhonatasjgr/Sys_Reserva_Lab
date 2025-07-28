@@ -1,0 +1,40 @@
+<div class="minhas-reservas-passadas-container">
+  <h2>Minhas Reservas Passadas</h2>
+
+  @if (minhasReservasPassadas.length === 0) {
+    <p>Você não tem histórico de reservas passadas.</p>
+  } @else {
+    <table class="reservas-table">
+      <thead>
+        <tr>
+          <th>Nome Sala</th>
+          <th>Data/Hora Início</th>
+          <th>Data/Hora Fim</th>
+          <th>Status</th>
+          <th>Observação</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (reserva of minhasReservasPassadas; track reserva.id) {
+          <tr>
+            <td>{{ reserva.sala?.nome || 'N/A' }}</td>
+            <td>{{ reserva.dataInicio | date:'dd/MM/yyyy - hh:mm'}}</td>
+            <td>{{ reserva.dataFim | date:'dd/MM/yyyy - hh:mm'}}</td>
+            <td>{{ reserva.status_reserva.nome_status || 'N/A' }}</td>
+            <td>{{ reserva.observacao || 'N/A' }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+
+    <div class="pagination-controls">
+      <button (click)="paginaAnterior()" [disabled]="paginaAtual === 1">Anterior</button>
+      <span>Página {{ paginaAtual }} de {{ totalPaginas }} (Total: {{ totalItens }} reservas)</span>
+      <button (click)="proximaPagina()" [disabled]="paginaAtual === totalPaginas">Próxima</button>
+    </div>
+  }
+
+  <div class="back-link">
+    <a routerLink="/dashboard">Voltar para o Dashboard</a>
+  </div>
+</div>

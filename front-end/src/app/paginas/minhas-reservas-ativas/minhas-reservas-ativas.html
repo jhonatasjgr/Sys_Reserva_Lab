@@ -1,0 +1,42 @@
+<div class="minhas-reservas-ativas-container">
+  <h2>Minhas Reservas Ativas</h2>
+
+  @if (minhasReservas.length === 0) {
+    <p>Você não tem nenhuma reserva ativa no momento.</p>
+  } @else {
+    <table class="reservas-table">
+      <thead>
+        <tr>
+          <th>Nome Sala</th>
+          <th>Data/Hora Início</th>
+          <th>Data/Hora Fim</th>
+          <th>Status</th>
+          <th>Observação</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (reserva of minhasReservas; track reserva.id) {
+          <tr>
+            <td>{{ reserva.sala?.nome || 'N/A' }}</td>
+            <td>{{ reserva.dataInicio | date:'dd/MM/yyyy - hh:mm'}}</td>
+            <td>{{ reserva.dataFim | date:'dd/MM/yyyy - hh:mm'}}</td>
+            <td>{{  reserva.status_reserva.nome_status }}</td>
+            <td>{{ reserva.observacao || 'N/A' }}</td>
+            <td class="actions-cell">
+              @if(reserva.status_reserva.nome_status == 'EM_ANDAMENTO'){ 
+                <button class="cancel-button" (click)="alertaEmAndamento(reserva)">Cancelar</button>
+              }@else {
+                <button class="cancel-button" (click)="cancelarReserva(reserva.id)">Cancelar</button>
+              }
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+
+  <div class="back-link">
+    <a routerLink="/dashboard">Voltar para o Dashboard</a>
+  </div>
+</div>

@@ -1,0 +1,45 @@
+<aside class="sidebar" [class.expanded]="estaExpansivel" [class.collapsed]="!estaExpansivel">
+  <div class="logo">
+    <h3>Sistema de Reservas</h3>
+  </div>
+  <nav class="navigation">
+    <ul>
+      <li><a routerLink="/dashboard" routerLinkActive="active"><span>Início</span></a></li>
+
+      @if(tipoUsuario === 3) {  <!-- ADMINISTRADOR -->
+        <li><a routerLink="/gerenciar-usuarios" routerLinkActive="active"><span>Gerenciar Usuários</span></a>
+        </li><li><a routerLink="/criar-sala" routerLinkActive="active"><span>Gerenciar Salas</span></a>
+      }
+
+      @if(tipoUsuario === 1) { <!-- PROFESSOR -->
+        <li><a routerLink="/reservar-sala" routerLinkActive="active"><span>Reservar Sala</span></a></li> 
+        <li><a routerLink="/minhas-reservas" routerLinkActive="active"><span>Minhas Reservas Ativas</span></a></li> 
+        <li><a routerLink="/historico-minhas-reservas" routerLinkActive="active"><span>Histórico de Reservas</span></a></li>
+        <!-- <li><a routerLink="/dashboard" routerLinkActive="active"><span>Gerenciar Minhas Turmas</span></a></li>  -->
+      }
+<!-- 
+      @if(tipoUsuario === null) {  PARA ALUNO FUTURAMENTE
+        <li><a routerLink="/reservas-em-andamento" routerLinkActive="active"><span>Minhas Reservas Ativas</span></a>
+        </li> <li><a routerLink="/historico-reservas" routerLinkActive="active"><span>Histórico de Reservas</span></a></li> 
+      } -->
+
+      @if(tipoUsuario === 2 || tipoUsuario === 3) {  <!-- SECRETARIA, VIGILANTE OU ADMINISTRADOR -->
+          <li><a routerLink="/reservas-pendentes" routerLinkActive="active"><span>Reservas Pendentes</span></a></li>
+          <li><a routerLink="/reservas-em-andamento" routerLinkActive="active"><span>Reservas em Andamento</span></a></li> 
+          <li><a routerLink="/reservas-encerradas" routerLinkActive="active"><span>Histórico de Reservas</span></a></li> 
+        }
+
+      <li><a (click)="logout()"><span>Sair</span></a></li>
+    </ul>
+
+    <!-- <li>tipoUsuario: {{tipoUsuario}}</li> -->
+  </nav>
+
+  <button class="toggle-button" (click)="toggleMenu()">
+    <div class="hamburger-icon" [class.open]="!estaExpansivel">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </button>
+</aside>

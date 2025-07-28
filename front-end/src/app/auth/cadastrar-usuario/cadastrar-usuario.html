@@ -1,0 +1,71 @@
+<div class="register-container">
+ <h2>Criar Nova Conta</h2>
+ <form [formGroup]="form" (ngSubmit)="submit()">
+  <div class="form-group">
+   <label for="nome">Nome:</label>
+   <input type="text" id="nome" formControlName="nome">
+   @if (form.get('nome')?.invalid && (form.get('nome')?.dirty || form.get('nome')?.touched)) {
+    <div class="error-message">
+     @if (form.get('nome')?.errors?.['required']) { <div>Nome é obrigatório.</div> }
+     @if (form.get('nome')?.errors?.['minlength']) { <div>Nome deve ter no mínimo 3 caracteres.</div> }
+    </div>
+   }
+  </div>
+
+  <div class="form-group">
+   <label for="email">Email:</label>
+   <input type="email" id="email" formControlName="email">
+   @if (form.get('email')?.invalid && (form.get('email')?.dirty || form.get('email')?.touched)) {
+    <div class="error-message">
+     @if (form.get('email')?.errors?.['required']) { <div>Email é obrigatório.</div> }
+     @if (form.get('email')?.errors?.['email']) { <div>Email inválido.</div> }
+    </div>
+   }
+  </div>
+
+  <div class="form-group">
+   <label for="senha">Senha:</label>
+   <input type="password" id="senha" formControlName="senha">
+   @if (form.get('senha')?.invalid && (form.get('senha')?.dirty || form.get('senha')?.touched)) {
+    <div class="error-message">
+     @if (form.get('senha')?.errors?.['required']) { <div>Senha é obrigatória.</div> }
+     @if (form.get('senha')?.errors?.['minlength']) { <div>Senha deve ter no mínimo 6 caracteres.</div> }
+    </div>
+   }
+  </div>
+
+  <div class="form-group">
+   <label for="tipo_usuarioId">Tipo de Usuário:</label>
+      <select id="tipo_usuarioId" formControlName="tipo_usuarioId">
+        <option [ngValue]="null" disabled>Selecione o tipo de usuário</option>
+        <option [ngValue]="3" disabled>Administrador</option>
+        <option [ngValue]="1">Professor</option> 
+        <option [ngValue]="2">Vigilante</option>
+        <option [ngValue]="'ALUNO'" disabled>Aluno</option>    
+   </select>
+
+      @if (form.get('tipo_usuarioId')?.invalid && (form.get('tipo_usuarioId')?.dirty || form.get('tipo_usuarioId')?.touched)) {
+    <div class="error-message">
+     @if (form.get('tipo_usuarioId')?.errors?.['required']) { <div>Tipo de usuário é obrigatório.</div> }
+    </div>
+   }
+  </div>
+
+  <button type="submit" [disabled]="!form.valid">Registrar</button>
+ </form>
+
+ @if (mensagemErro) {
+  <div class="api-error-message">
+   {{ mensagemErro }}
+  </div>
+ }
+ @if (mensagemSucesso) {
+  <div class="success-message">
+   {{ mensagemSucesso }}
+  </div>
+ }
+
+ <div class="login-link">
+ Já tem uma conta? <a routerLink="/login">Faça Login</a>
+</div>
+</div>

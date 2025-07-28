@@ -1,0 +1,41 @@
+<div class="gerenciar-reservas-container">
+  <h2>Reservas Pendentes do Dia</h2>
+
+  @if (reservasPendentes.length == 0) {
+    <p>Nenhuma reserva pendente para hoje.</p>
+  } @else {
+    <table class="reservas-table">
+      <thead>
+        <tr>
+          <th>Nome Sala</th>
+          <th>Data/Hora Início</th>
+          <th>Data/Hora Fim</th>
+          <th>Nome do Professor</th>
+          <th>Status</th>
+          <th>Observação</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (reserva of reservasPendentes; track reserva.id) {
+          <tr>
+            <td>{{ reserva.sala?.nome || 'N/A' }}</td>
+            <td>{{ reserva.dataInicio | date: 'dd/MM/yyyy - HH:mm' }}</td>
+            <td>{{ reserva.dataFim | date: 'dd/MM/yyyy - HH:mm' }}</td>
+            <td>{{ reserva.usuario?.nome || 'N/A' }}</td>
+            <td>{{ reserva.status_reserva.nome_status }}</td>
+            <td>{{ reserva.observacao || 'N/A' }}</td>
+            <td class="actions-cell">
+              <button class="approve-button" (click)="aprovarReserva(reserva.id)">Aprovar</button>
+              <button class="cancel-button" (click)="cancelarReserva(reserva.id)">Cancelar</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+
+  <div class="back-link">
+    <a routerLink="/dashboard">Voltar para o Dashboard</a>
+  </div>
+</div>

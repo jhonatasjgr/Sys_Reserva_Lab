@@ -1,0 +1,44 @@
+<!-- src/app/pages/historico-reservas/historico-reservas.component.html -->
+<div class="historico-reservas-container">
+  <h2>Histórico de Reservas (Concluídas e Canceladas)</h2>
+
+  @if (historicoReservas.length === 0) {
+    <p>Não há histórico de reservas concluídas ou canceladas.</p>
+  } @else {
+    <table class="reservas-table">
+      <thead>
+        <tr>
+          <th>Nome Sala</th>
+          <th>Data/Hora Início</th>
+          <th>Data/Hora Fim</th>
+          <th>Status</th>
+          <th>Observação</th>
+          <th>Solicitante</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (reserva of historicoReservas; track reserva.id) {
+          <tr>
+            <td>{{ reserva.sala?.nome || 'N/A' }}</td>
+            <td>{{ reserva.dataInicio | date:'dd/MM/yyyy - HH:mm' }}</td>
+            <td>{{ reserva.dataFim | date:'dd/MM/yyyy - HH:mm' }}</td>
+            <td>{{ reserva.status_reserva.nome_status || 'N/A' }}</td>
+            <td>{{ reserva.observacao || 'N/A' }}</td>
+            <td>{{ reserva.usuario?.nome || 'N/A' }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+
+    <!-- Controles de Paginação -->
+    <div class="pagination-controls">
+      <button (click)="paginaAnterior()" [disabled]="paginaAtual === 1">Anterior</button>
+      <span>Página {{ paginaAtual }} de {{ totalPaginas }} (Total: {{ totalItens }} reservas)</span>
+      <button (click)="proximaPagina()" [disabled]="paginaAtual === totalPaginas">Próxima</button>
+    </div>
+  }
+
+  <div class="back-link">
+    <a routerLink="/dashboard">Voltar para o Dashboard</a>
+  </div>
+</div>

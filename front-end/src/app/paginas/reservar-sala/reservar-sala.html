@@ -1,0 +1,62 @@
+<div class="reserva-sala-container">
+  <h2>Reservar Sala</h2>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+
+    <div class="form-group">
+      <label for="salaId">Sala:</label>
+      <select id="salaId" formControlName="salaId">
+        <option [ngValue]="null" disabled>Selecione uma sala</option>
+        @for (sala of salas; track sala.id) {
+          <option [ngValue]="sala.id">{{ sala.nome }} (Capacidade: {{ sala.capacidade }})</option>
+        }
+      </select>
+      @if (form.get('salaId')?.invalid && (form.get('salaId')?.dirty || form.get('salaId')?.touched)) {
+        <div class="error-message">
+          @if (form.get('salaId')?.errors?.['required']) { <div>A sala é obrigatória.</div> }
+        </div>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="dataInicio">Início:</label>
+      <input type="datetime-local" id="dataInicio" formControlName="dataInicio">
+      @if (form.get('dataInicio')?.invalid && (form.get('dataInicio')?.dirty || form.get('dataInicio')?.touched)) {
+        <div class="error-message">
+          @if (form.get('dataInicio')?.errors?.['required']) { <div>A data e hora de início são obrigatórias.</div> }
+        </div>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="dataFim">Fim:</label>
+      <input type="datetime-local" id="dataFim" formControlName="dataFim">
+      @if (form.get('dataFim')?.invalid && (form.get('dataFim')?.dirty || form.get('dataFim')?.touched)) {
+        <div class="error-message">
+          @if (form.get('dataFim')?.errors?.['required']) { <div>A data e hora de fim são obrigatórias.</div> }
+        </div>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="observacao">Observação:</label>
+      <textarea id="observacao" formControlName="observacao" rows="3"></textarea>
+    </div>
+
+    <button type="submit" [disabled]="!form.valid">Confirmar Reserva</button>
+  </form>
+
+  @if (mensagemErro) {
+    <div class="api-error-message">
+      {{ mensagemErro }}
+    </div>
+  }
+  @if (mensagemSucesso) {
+    <div class="success-message">
+      {{ mensagemSucesso }}
+    </div>
+  }
+
+  <div class="back-link">
+    <a routerLink="/dashboard">Voltar</a>
+  </div>
+</div>

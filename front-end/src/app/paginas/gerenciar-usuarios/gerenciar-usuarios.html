@@ -1,0 +1,46 @@
+<div class="gerenciar-usuarios-container">
+  <h2>Gerenciar Usuários</h2>
+
+  @if (usuarios.length === 0) {
+    <p>Nenhum usuário encontrado no sistema.</p>
+  } @else {
+    <table class="usuarios-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>Tipo</th>
+          <th>Status</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (usuario of usuarios; track usuario.id) {
+            <tr>
+                <td>{{ usuario.id }}</td>
+                <td>{{ usuario.nome }}</td>
+                <td>{{ usuario.email }}</td>
+                <td>{{ usuario.tipo_usuario.nome_tipo || 'N/A' }}</td>
+                <td [ngClass]="{'status-active': usuario.status, 'status-inactive': !usuario.status}">
+                {{ usuario.status ? 'Ativo' : 'Inativo' }}
+                </td>
+                <td class="actions-cell">
+                
+                <button
+                    [ngClass]="{'toggle-active-button': !usuario.status, 'toggle-inactive-button': usuario.status}"
+                    (click)="toggleStatusUsuario(usuario.id, usuario.status)"
+                >
+                    {{ usuario.status ? 'Desativar' : 'Ativar' }}
+                </button>
+                </td>
+            </tr>
+        }
+      </tbody>
+    </table>
+  }
+
+  <div class="back-link">
+    <a routerLink="/dashboard">Voltar para o Dashboard</a>
+  </div>
+</div>

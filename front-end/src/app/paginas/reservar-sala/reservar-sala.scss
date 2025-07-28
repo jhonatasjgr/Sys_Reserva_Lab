@@ -1,0 +1,164 @@
+/* src/app/components/reserva-sala/reserva-sala.component.scss */
+
+// Variáveis básicas (opcional, mas bom para consistência)
+$primary-color: #007bff; // Azul vibrante
+$secondary-color: #6c757d; // Cinza escuro
+$success-color: #28a745; // Verde para sucesso
+$danger-color: #dc3545;  // Vermelho para erro
+$warning-color: #ffc107; // Amarelo para avisos
+$light-bg: #f8f9fa; // Fundo claro
+$dark-text: #343a40; // Texto escuro
+$border-color: #ced4da; // Cor da borda padrão
+
+.reserva-sala-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
+  color: $dark-text;
+
+  h2 {
+    text-align: center;
+    color: $primary-color;
+    margin-bottom: 25px;
+    font-size: 2em;
+    font-weight: 600;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: $secondary-color;
+      font-size: 0.95em;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="datetime-local"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid $border-color;
+      border-radius: 5px;
+      font-size: 1em;
+      color: $dark-text;
+      box-sizing: border-box; // Inclui padding e borda na largura total
+
+      &:focus {
+        border-color: $primary-color;
+        outline: none;
+        box-shadow: 0 0 0 0.2rem rgba($primary-color, 0.25);
+      }
+    }
+
+    // Estilo para inputs inválidos (Angular)
+    input.ng-invalid.ng-touched,
+    select.ng-invalid.ng-touched,
+    textarea.ng-invalid.ng-touched {
+      border-color: $danger-color;
+      box-shadow: 0 0 0 0.2rem rgba($danger-color, 0.25);
+    }
+  }
+
+  button[type="submit"] {
+    width: 100%;
+    padding: 15px;
+    background-color: $primary-color;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: darken($primary-color, 10%);
+    }
+
+    &:disabled {
+      background-color: $secondary-color;
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+  }
+
+  // Mensagens de validação (abaixo dos inputs)
+  .error-message {
+    color: $danger-color;
+    font-size: 0.85em;
+    margin-top: 5px;
+    div {
+      margin-bottom: 3px;
+    }
+  }
+
+  // Mensagens da API (geral, abaixo do formulário)
+  .api-error-message {
+    background-color: lighten($danger-color, 40%);
+    color: $danger-color;
+    padding: 12px 15px;
+    border-radius: 5px;
+    margin-top: 20px;
+    text-align: center;
+    font-weight: 500;
+    border: 1px solid $danger-color;
+  }
+
+  .success-message {
+    background-color: lighten($success-color, 40%);
+    color: $success-color;
+    padding: 12px 15px;
+    border-radius: 5px;
+    margin-top: 20px;
+    text-align: center;
+    font-weight: 500;
+    border: 1px solid $success-color;
+  }
+
+  .back-link {
+    text-align: center;
+    margin-top: 25px;
+    font-size: 0.95em;
+
+    a {
+      color: $primary-color;
+      text-decoration: none;
+      font-weight: bold;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  // Responsividade básica
+  @media (max-width: 768px) {
+    margin: 20px auto;
+    padding: 20px;
+  }
+
+  @media (max-width: 480px) {
+    margin: 10px;
+    padding: 15px;
+    h2 {
+      font-size: 1.6em;
+    }
+    .form-group label,
+    .form-group input,
+    .form-group select,
+    .form-group textarea,
+    button[type="submit"] {
+      font-size: 0.9em;
+    }
+  }
+}

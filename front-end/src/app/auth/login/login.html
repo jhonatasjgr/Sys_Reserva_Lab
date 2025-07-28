@@ -1,0 +1,31 @@
+<div class="login-container">
+  <h2>Login no Sistema de Reservas</h2>
+  <form [formGroup]="loginForm" (ngSubmit)="submit()">
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" id="email" formControlName="email">
+      @if (loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)) {
+        <div class="error-message">
+          @if (loginForm.get('email')?.errors?.['required']) { <div>Email é obrigatório.</div> }
+          @if (loginForm.get('email')?.errors?.['email']) { <div>Email inválido.</div> }
+        </div>
+      }
+    </div>
+    <div class="form-group">
+      <label for="password">Senha:</label>
+      <input type="password" id="password" formControlName="senha">
+      @if (loginForm.get('senha')?.invalid && (loginForm.get('senha')?.dirty || loginForm.get('senha')?.touched)) {
+        <div class="error-message">
+          @if (loginForm.get('senha')?.errors?.['required']) { <div>Senha é obrigatória.</div> }
+          @if (loginForm.get('senha')?.errors?.['minlength']) { <div>Senha deve ter no mínimo 6 caracteres.</div> }
+        </div>
+      }
+    </div>
+    <button type="submit" [disabled]="!loginForm.valid">Entrar</button>
+    <!-- :Link para cadastrar usuário -->
+    <div class="register-link">
+      <a routerLink="/cadastrarUsuario">Cadastrar-se</a>
+    </div>
+  </form>
+
+</div>

@@ -1,0 +1,120 @@
+.minhas-reservas-passadas-container {
+  padding: 20px;
+  h2 {
+    margin-bottom: 20px;
+    color: #333;
+  }
+  .reservas-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    background-color: #fff;
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 12px 15px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+      color: #555;
+    }
+
+    tbody tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    tbody tr:hover {
+      background-color: #f1f1f1;
+    }
+  }
+  .back-link {
+    margin-top: 20px;
+    a {
+      color: #007bff;
+      text-decoration: none;
+      &:hover { text-decoration: underline; }
+    }
+  }
+}
+.minhas-reservas-passadas-container {
+  padding: 20px;
+  h2 {
+    margin-bottom: 20px;
+    color: #333;
+  }
+  .reservas-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    background-color: #fff;
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 12px 15px;
+      text-align: left;
+      vertical-align: middle; /* Alinha o conteúdo verticalmente no meio */
+    }
+
+    th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+      color: #555;
+    }
+
+    tbody tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    tbody tr:hover {
+      background-color: #f1f1f1;
+    }
+  }
+
+  /* Estilos para os controles de paginação */
+  .pagination-controls {
+    display: flex;
+    justify-content: center; /* Centraliza os botões */
+    align-items: center;
+    margin-top: 20px;
+    gap: 15px; /* Espaço entre os elementos */
+
+    button {
+      padding: 10px 15px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background-color 0.3s ease;
+
+      &:hover:not(:disabled) {
+        background-color: #0056b3;
+      }
+      &:disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
+      }
+    }
+
+    span {
+      font-size: 1em;
+      color: #555;
+    }
+  }
+
+  .back-link {
+    margin-top: 20px;
+    text-align: center; /* Centraliza o link de voltar */
+    a {
+      color: #007bff;
+      text-decoration: none;
+      &:hover { text-decoration: underline; }
+    }
+  }
+}

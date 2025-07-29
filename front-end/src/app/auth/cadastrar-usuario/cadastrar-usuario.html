@@ -41,7 +41,7 @@
         <option [ngValue]="3" disabled>Administrador</option>
         <option [ngValue]="1">Professor</option> 
         <option [ngValue]="2">Vigilante</option>
-        <option [ngValue]="'ALUNO'" disabled>Aluno</option>    
+        <!-- <option [ngValue]="'ALUNO'" disabled>Aluno</option>     -->
    </select>
 
       @if (form.get('tipo_usuarioId')?.invalid && (form.get('tipo_usuarioId')?.dirty || form.get('tipo_usuarioId')?.touched)) {

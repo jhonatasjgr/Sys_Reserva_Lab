@@ -235,10 +235,10 @@ ng serve -o
 - ✅ Reservas em atraso (implementado)
 - ✅ Paginação do histórico (implementado)  
 - ✅ Sweet Alert (implementado)
+- ✅ Filtros avançados nas listagens (implementado)
 
 ### Roadmap
 - 📅 **Calendário visual** para reservas
-- 🔍 **Filtros avançados** nas listagens
 - 📊 **Ordenação de colunas** dinâmica
 - 📈 **Dashboard com métricas** de utilização
 - 📱 **Notificações em tempo real** via WebSocket

@@ -245,29 +245,6 @@ ng serve -o
 - 📄 **Relatórios PDF** detalhados
 - 🔄 **Sincronização com sistemas** institucionais
 
-## 🧪 Testes
-
-### Backend
-```bash
-# Testes unitários
-npm run test
-
-# Testes de integração
-npm run test:e2e
-
-# Cobertura de código
-npm run test:cov
-```
-
-### Frontend
-```bash
-# Testes unitários
-ng test
-
-# Testes E2E
-ng e2e
-```
-
 ## 📈 Performance e Otimização
 
 ### Backend

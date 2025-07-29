@@ -1,9 +1,83 @@
-<!-- src/app/pages/historico-reservas/historico-reservas.component.html -->
 <div class="historico-reservas-container">
   <h2>Histórico de Reservas (Concluídas e Canceladas)</h2>
 
-  @if (historicoReservas.length === 0) {
-    <p>Não há histórico de reservas concluídas ou canceladas.</p>
+  <div class="filtros-container">
+    <h3>Filtros de Busca</h3>
+    
+    <div class="filtros-grid">
+      <div class="filtro-item">
+        <label for="nomeSala">Nome da Sala:</label>
+        <input 
+          type="text" 
+          id="nomeSala"
+          [(ngModel)]="filtros.nomeSala"
+          (input)="aplicarFiltros()"
+          placeholder="Digite o nome da sala..."
+          class="filtro-input">
+      </div>
+
+      <div class="filtro-item">
+        <label for="status">Status:</label>
+        <select 
+          id="status"
+          [(ngModel)]="filtros.status"
+          (change)="aplicarFiltros()"
+          class="filtro-select">
+          <option value="">Todos os status</option>
+          @for (status of statusDisponiveis; track status) {
+            <option [value]="status">{{ status }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="filtro-item">
+        <label for="solicitante">Solicitante:</label>
+        <input 
+          type="text" 
+          id="solicitante"
+          [(ngModel)]="filtros.solicitante"
+          (input)="aplicarFiltros()"
+          placeholder="Digite o nome do solicitante..."
+          class="filtro-input">
+      </div>
+
+      <div class="filtro-item">
+        <label for="dataInicio">Data Início (a partir de):</label>
+        <input 
+          type="date" 
+          id="dataInicio"
+          [(ngModel)]="filtros.dataInicio"
+          (change)="aplicarFiltros()"
+          class="filtro-input">
+      </div>
+
+      <div class="filtro-item">
+        <label for="dataFim">Data Fim (até):</label>
+        <input 
+          type="date" 
+          id="dataFim"
+          [(ngModel)]="filtros.dataFim"
+          (change)="aplicarFiltros()"
+          class="filtro-input">
+      </div>
+
+      <div class="filtro-item">
+        <button 
+          type="button" 
+          (click)="limparFiltros()"
+          class="btn-limpar-filtros">
+          Limpar Filtros
+        </button>
+      </div>
+    </div>
+
+    <div class="resultados-info">
+      <p><strong>{{ totalItens }}</strong> registro(s) encontrado(s)</p>
+    </div>
+  </div>
+
+  @if (itensPaginaAtual.length === 0) {
+    <p class="sem-resultados">Não há reservas que correspondam aos filtros aplicados.</p>
   } @else {
     <table class="reservas-table">
       <thead>
@@ -17,7 +91,7 @@
         </tr>
       </thead>
       <tbody>
-        @for (reserva of historicoReservas; track reserva.id) {
+        @for (reserva of itensPaginaAtual; track reserva.id) {
           <tr>
             <td>{{ reserva.sala?.nome || 'N/A' }}</td>
             <td>{{ reserva.dataInicio | date:'dd/MM/yyyy - HH:mm' }}</td>
@@ -30,7 +104,6 @@
       </tbody>
     </table>
 
-    <!-- Controles de Paginação -->
     <div class="pagination-controls">
       <button (click)="paginaAnterior()" [disabled]="paginaAtual === 1">Anterior</button>
       <span>Página {{ paginaAtual }} de {{ totalPaginas }} (Total: {{ totalItens }} reservas)</span>

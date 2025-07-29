@@ -1,10 +1,14 @@
 reserva em atraso       - OK
 paginação do histórico  - OK
 sweet alert             - OK
-
-filtros                 - Só consigo fazer com angular component
-ordenação de colunas    - Só consigo fazer com angular component
+filtros                 - OK
 
 
 Implementações Futuras:
     1. Calendário
+    2. PWA
+    3. Notificações no app e email
+    4. Dashboard com métricas de reserva
+    5. Login com google
+    6. Relatórios e PDF
+    7. Reservas Recorrentes

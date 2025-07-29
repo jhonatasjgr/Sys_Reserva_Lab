@@ -249,32 +249,31 @@ export class ReservasService {
 
    async getMinhasReservas(usuarioId: number, pagina: number = 1, limite: number = 10): Promise<PaginatedReservas> {
     const dataAtual = new Date();
-    dataAtual.setHours(0, 0, 0, 0);
+    dataAtual.setHours(0, 0, 0, 0); 
 
-    const agora = new Date(); // Hora e minuto atuais para comparar com o fim do dia
+    const finalDoDiaAtual = new Date(dataAtual);
+    finalDoDiaAtual.setHours(23, 59, 59, 999); 
 
-    const pularRegistros = (pagina - 1) * limite; // Calcula quantos registros pular
+    const pularRegistros = (pagina - 1) * limite; 
 
     const condicoesFiltro: Prisma.ReservaWhereInput = {
       usuarioId: usuarioId,
       AND: [
         {
           OR: [
-            // Condição 1: Reservas PASSADAS (dataFim anterior ao início do dia atual), com QUALQUER status
             {
-              dataFim: {
-                lt: dataAtual,
+              dataInicio: {
+                lt: dataAtual, // Data de início anterior ao dia atual
               }
             },
-            // Condição 2: Reservas de HOJE que já foram CONCLUIDAS ou CANCELADAS
             {
-              dataFim: {
+              dataInicio: {
                 gte: dataAtual,
-                lt: agora
+                lte: finalDoDiaAtual
               },
               status_reserva: {
                 nome_status: {
-                  in: ['CANCELADA', 'CONCLUIDA']
+                  in: ['CANCELADA', 'CONCLUIDA', 'EM_ATRASO']
                 }
               }
             }
@@ -298,7 +297,6 @@ export class ReservasService {
       take: limite,        // Limita a quantidade de registros
     });
 
-    // Consulta o total de reservas do usuário que correspondem às condições
     const totalMinhasReservas = await this.prisma.reserva.count({
       where: condicoesFiltro,
     });
@@ -314,37 +312,34 @@ export class ReservasService {
 
   async findAll(pagina: number = 1, limite: number = 10): Promise<PaginatedReservas> {
     const dataAtual = new Date();
-    dataAtual.setHours(0, 0, 0, 0);
+    dataAtual.setHours(0, 0, 0, 0); 
 
-    const inicioDoDiaAtual = new Date(dataAtual);
-    inicioDoDiaAtual.setHours(0, 0, 0, 0);
+    const finalDoDiaAtual = new Date(dataAtual);
+    finalDoDiaAtual.setHours(23, 59, 59, 999);
 
-    const agora = new Date();
-
-    const pularRegistros = (pagina - 1) * limite; // Calcula quantos registros pular
+    const pularRegistros = (pagina - 1) * limite; 
 
     const condicoesFiltro: Prisma.ReservaWhereInput = {
       OR: [
         {
-          dataFim: {
-            lt: inicioDoDiaAtual,
+          dataInicio: {
+            lt: dataAtual, 
           }
         },
         {
-          dataFim: {
-            gte: inicioDoDiaAtual,
-            lt: agora
+          dataInicio: {
+            gte: dataAtual,
+            lte: finalDoDiaAtual
           },
           status_reserva: {
             nome_status: {
-              in: ['CANCELADA', 'CONCLUIDA']
+              in: ['CANCELADA', 'CONCLUIDA', 'EM_ATRASO']
             }
           }
         }
       ]
     };
 
-    // Consulta as reservas paginadas
     const reservas = await this.prisma.reserva.findMany({
       where: condicoesFiltro,
       include: {
@@ -355,11 +350,10 @@ export class ReservasService {
       orderBy: {
         dataInicio: 'desc',
       },
-      skip: pularRegistros, // Pula registros
-      take: limite,        // Limita a quantidade de registros
+      skip: pularRegistros, 
+      take: limite,        
     });
 
-    // Consulta o total de reservas que correspondem às condições
     const totalReservas = await this.prisma.reserva.count({
       where: condicoesFiltro,
     });

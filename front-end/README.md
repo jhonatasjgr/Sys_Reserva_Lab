@@ -32,7 +32,7 @@ O Sistema de Reserva de Laboratórios e Salas tem como objetivo otimizar a gest�
   - **Criação de Reserva:** Formulário para solicitar novas reservas (Professor).
   - **Reservas Pendentes:** Visualização e aprovação/cancelamento de reservas pendentes do dia (ADMIN/VIGILANTE).
   - **Minhas Reservas Ativas:** Visualização de reservas ativas do usuário logado (pendentes, em andamento, aprovadas) com opção de cancelar ou concluir (PROFESSOR).
-  - **Histórico de Reservas:** Visualização de reservas passadas (concluídas ou canceladas) para usuários logados (PROFESSORo.
+  - **Histórico de Reservas:** Visualização de reservas passadas (concluídas ou canceladas) para usuários logados (PROFESSOR).
   - **Gerenciar Todas as Reservas:** Visualização e gerenciamento de todas as reservas do sistema (ADMIN).
 - **Navegação por Papel:** Menu lateral dinâmico que exibe links de acordo com o papel do usuário (Administrador, Professor, Vigilante/Secretaria).
 - **Paginação:** Implementada em tabelas de listagem para melhor desempenho e usabilidade.
@@ -40,11 +40,58 @@ O Sistema de Reserva de Laboratórios e Salas tem como objetivo otimizar a gest�
 
 ---
 
-## 4. Instalação do Projeto
+## 4. Sistema de Filtros
+
+O sistema possui filtros avançados implementados nos componentes de histórico de reservas, permitindo aos usuários encontrar rapidamente as informações desejadas.
+
+### 4.1. Filtros Disponíveis
+
+**Histórico de Reservas (Admin/Vigilante):**
+- **Nome da Sala:** Filtro por texto (busca parcial, case-insensitive)
+- **Status da Reserva:** Dropdown com opções: CONCLUIDA, CANCELADA, EM_ATRASO
+- **Solicitante:** Filtro por nome do usuário que fez a reserva (busca parcial, case-insensitive)
+- **Data de Início:** Filtro por data (maior ou igual à data selecionada)
+- **Data de Fim:** Filtro por data (menor ou igual à data selecionada)
+
+**Minhas Reservas - Histórico (Professor):**
+- **Nome da Sala:** Filtro por texto (busca parcial, case-insensitive)
+- **Status da Reserva:** Dropdown com opções: CONCLUIDA, CANCELADA, EM_ATRASO
+- **Data de Início:** Filtro por data (maior ou igual à data selecionada)
+- **Data de Fim:** Filtro por data (menor ou igual à data selecionada)
+
+### 4.2. Características dos Filtros
+
+- **Filtros em Tempo Real:** Aplicação imediata dos filtros conforme o usuário digita ou seleciona opções
+- **Filtros Combinados:** Múltiplos filtros podem ser aplicados simultaneamente
+- **Paginação Client-side:** Os filtros trabalham com paginação no frontend para melhor performance
+- **Botão Limpar:** Funcionalidade para resetar todos os filtros de uma vez
+- **Feedback Visual:** Logs detalhados no console para debugging e monitoramento
+
+### 4.3. Implementação Técnica
+
+- **Angular FormsModule:** Utilizado para two-way data binding nos campos de filtro
+- **Filtros Reativos:** Implementados com métodos dedicados que processam arrays de dados
+- **Normalização de Texto:** Conversão para lowercase e trim para busca mais eficiente
+- **Filtros de Data:** Configuração automática de horários (00:00:00 para início, 23:59:59 para fim)
+
+### 4.4. Lógica de Exibição de Dados
+
+Os componentes de histórico seguem a seguinte lógica para exibir reservas:
+
+**Critérios de Inclusão:**
+- ✅ **Reservas Passadas:** Todas as reservas de dias anteriores (qualquer status)
+- ✅ **Reservas de Hoje Finalizadas:** Reservas de hoje com status CANCELADA, CONCLUIDA ou EM_ATRASO
+- ❌ **Reservas Ativas:** Reservas pendentes ou aprovadas não aparecem no histórico
+
+Esta lógica garante que apenas reservas efetivamente "finalizadas" apareçam no histórico, proporcionando uma visão clara do que já foi concluído ou cancelado.
+
+---
+
+## 5. Instalação do Projeto
 
 Siga os passos abaixo para configurar e rodar o frontend em sua máquina local.
 
-### 4.1. Pré-requisitos
+### 5.1. Pré-requisitos
 
 Certifique-se de ter o Node.js (versão LTS recomendada) e o Angular CLI instalados globalmente:
 
@@ -60,14 +107,14 @@ Se não tiver o Angular CLI, instale-o:
 npm install -g @angular/cli
 ```
 
-### 4.2. Clonar o Repositório
+### 5.2. Clonar o Repositório
 
 ```bash
 git clone [URL_DESTE_PROJETO]
 cd front-end
 ```
 
-### 4.3. Instalar Dependências
+### 5.3. Instalar Dependências
 
 Instale todas as dependências do projeto, incluindo SweetAlert2 e jwt-decode:
 
@@ -75,7 +122,7 @@ Instale todas as dependências do projeto, incluindo SweetAlert2 e jwt-decode:
 npm install
 ```
 
-### 4.4. Configuração do Backend
+### 5.4. Configuração do Backend
 
 Este frontend depende de um backend NestJS rodando. Certifique-se de que seu backend está configurado e acessível na URL `http://localhost:3000`.
 
@@ -85,7 +132,7 @@ Certifique-se de que o CORS está habilitado no seu backend NestJS para permitir
 
 ---
 
-## 5. Rodando a Aplicação
+## 6. Rodando a Aplicação
 
 Para iniciar o servidor de desenvolvimento do Angular:
 
@@ -97,7 +144,7 @@ Isso compilará a aplicação e a abrirá no seu navegador padrão em `http://lo
 
 ---
 
-## 6. Estrutura do Projeto
+## 7. Estrutura do Projeto
 
 A estrutura do projeto segue as convenções do Angular para aplicações standalone e modularidade:
 
@@ -132,9 +179,9 @@ src/
 
 ---
 
-## 7. Componentes e Serviços Chave
+## 8. Componentes e Serviços Chave
 
-### 7.1. Autenticação e Autorização
+### 8.1. Autenticação e Autorização
 
 **AuthService (`src/app/auth/services/auth.service.ts`):**
 - Gerencia o login, logout e o token JWT no localStorage.
@@ -153,7 +200,7 @@ src/
 **AuthInterceptor (`src/app/core/interceptors/auth.interceptor.ts`):**
 - `HttpInterceptorFn` (função): Interceptor HTTP que anexa o token JWT (Bearer Token) a todas as requisições enviadas ao backend.
 
-### 7.2. Serviços de Entidades (Backend API)
+### 8.2. Serviços de Entidades (Backend API)
 
 **UserService (`src/app/services/user.service.ts`):**
 - Consome a API `/usuarios` do backend para operações CRUD em usuários.
@@ -169,7 +216,7 @@ src/
 - Métodos para: `createSala`, `getSalas`, `getSalaById`, `updateSala`, `deleteSala`, `getTiposSala`.
 - Inclui handleError e tap para SweetAlert2.
 
-### 7.3. Componentes de UI e Lógica
+### 8.3. Componentes de UI e Lógica
 
 **DefaultLayoutComponent (`src/app/default-layout/default-layout.component.ts`):**
 - Componente de layout principal que contém o menu lateral (`app-menu`) e um `<router-outlet>` para exibir o conteúdo da rota atual.
@@ -191,7 +238,7 @@ src/
 
 ---
 
-## 8. Padrões de Projeto Aplicados
+## 9. Padrões de Projeto Aplicados
 
 - **Singleton (Criacional):** Todos os serviços Angular e NestJS são Singletons por padrão.
 - **Facade (Estrutural):** Serviços do frontend e backend abstraem complexidade de subsistemas.
@@ -204,7 +251,7 @@ src/
 
 ---
 
-## 9. Tratamento de Erros e Alertas
+## 10. Tratamento de Erros e Alertas
 
 - **SweetAlert2:** Exibe alertas visuais e modais de confirmação.
 - **handleError em Serviços:** Centraliza tratamento de erros HTTP e exibe mensagens via SweetAlert2.
@@ -215,7 +262,7 @@ src/
 
 ---
 
-## 10. Interação com o Banco de Dados (Perspectiva do Frontend)
+## 11. Interação com o Banco de Dados (Perspectiva do Frontend)
 
 O frontend interage com o banco de dados exclusivamente através da API RESTful do backend:
 
@@ -226,7 +273,7 @@ O frontend interage com o banco de dados exclusivamente através da API RESTful 
 
 ---
 
-## 11. Melhorias Futuras
+## 12. Melhorias Futuras
 
 - Filtragem e Busca Avançada nas tabelas de listagem.
 - Notificações em Tempo Real via WebSockets (Socket.IO).

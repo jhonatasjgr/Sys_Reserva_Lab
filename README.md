@@ -235,38 +235,15 @@ ng serve -o
 - ✅ Reservas em atraso (implementado)
 - ✅ Paginação do histórico (implementado)  
 - ✅ Sweet Alert (implementado)
+- ✅ Filtros avançados nas listagens (implementado)
 
 ### Roadmap
 - 📅 **Calendário visual** para reservas
-- 🔍 **Filtros avançados** nas listagens
 - 📊 **Ordenação de colunas** dinâmica
 - 📈 **Dashboard com métricas** de utilização
 - 📱 **Notificações em tempo real** via WebSocket
 - 📄 **Relatórios PDF** detalhados
 - 🔄 **Sincronização com sistemas** institucionais
-
-## 🧪 Testes
-
-### Backend
-```bash
-# Testes unitários
-npm run test
-
-# Testes de integração
-npm run test:e2e
-
-# Cobertura de código
-npm run test:cov
-```
-
-### Frontend
-```bash
-# Testes unitários
-ng test
-
-# Testes E2E
-ng e2e
-```
 
 ## 📈 Performance e Otimização
 

@@ -30,7 +30,7 @@ export class MinhasReservasHistorico implements OnInit {
     dataFim: ''
   };
 
-  statusDisponiveis: string[] = ['CONCLUIDA', 'CANCELADA', 'EM_ATRASO'];
+  statusDisponiveis: string[] = ['CONCLUIDA', 'CANCELADA', 'EM_ATRASO']; // mudar para pegar do banco de dados
 
   constructor(
     private reservasService: ReservaService,
@@ -39,7 +39,6 @@ export class MinhasReservasHistorico implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('Componente Minhas Reservas Histórico inicializando...');
     this.minhasReservasPassadas = [];
     this.minhasReservasPassadasFiltrado = [];
     this.paginaAtual = 1;
@@ -61,8 +60,6 @@ export class MinhasReservasHistorico implements OnInit {
 
     this.reservasService.getMinhasReservasPassadas(this.userId, 1, 1000).subscribe({
       next: (response: any) => { 
-        console.log('Dados recebidos (minhas reservas passadas):', response);
-        
         if (Array.isArray(response.data)) {
           this.minhasReservasPassadas = response.data.map((reserva:any) => ({
             ...reserva,
@@ -107,7 +104,6 @@ export class MinhasReservasHistorico implements OnInit {
   }
 
   aplicarFiltros() {
-    console.log('=== INICIANDO APLICAÇÃO DE FILTROS (MINHAS RESERVAS) ===');
     console.log('Filtros aplicados:', this.filtros);
     console.log('Dados originais:', this.minhasReservasPassadas.length);
     
@@ -166,7 +162,6 @@ export class MinhasReservasHistorico implements OnInit {
     }
 
     this.minhasReservasPassadasFiltrado = reservasFiltradas;
-    console.log('=== DADOS FILTRADOS FINAIS (MINHAS RESERVAS) ===', this.minhasReservasPassadasFiltrado.length);
     
     this.atualizarPaginacao();
   }

@@ -9,7 +9,6 @@ import { authInterceptor } from './auth/interceptors/auth-interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
- 
     provideRouter(appRoutes),
     provideHttpClient(withInterceptors([authInterceptor])),
     importProvidersFrom(ReactiveFormsModule)

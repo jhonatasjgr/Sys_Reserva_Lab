@@ -1,18 +1,18 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http'; // Importe HttpErrorResponse
+import { HttpClient, HttpErrorResponse } from '@angular/common/http'; 
 import { Injectable } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
-import { BehaviorSubject, Observable, tap, catchError, throwError } from 'rxjs'; // Importe catchError, throwError
+import { BehaviorSubject, Observable, tap, catchError, throwError } from 'rxjs'; 
 import { Router } from '@angular/router';
-import Swal from 'sweetalert2'; // Importado SweetAlert2
+import Swal from 'sweetalert2';
 
 interface LoginResposta {
   tokenAcesso: string;
 }
 
 interface TokenDecodificado {
-  userId: number; // ID do usuário (geralmente number)
-  tipo: string;   // Tipo de usuário (ex: 'ADMINISTRADOR')
-  username: string; // Nome de usuário
+  userId: number; 
+  tipo: string;   
+  username: string; 
   iat: number;
   exp: number;
 }
@@ -20,22 +20,18 @@ interface TokenDecodificado {
 @Injectable({
   providedIn: 'root'
 })
-export class Auth { // Mantendo o nome da classe como 'Auth'
+export class Auth { 
   private apiUrl = 'http://localhost:3000/auth';
   private chaveToken = 'jwt_token';
 
   private papelUsuario = new BehaviorSubject<string | null>(null);
   userRole$ = this.papelUsuario.asObservable();
 
-  // Injete o AlertaServiceTs
   constructor(private http: HttpClient, private router: Router) {
     this.carregarTokenPapelUsuario();
   }
 
-  /**
-   * NOVO: Método para tratar erros HTTP de forma centralizada.
-   * Usará AlertaServiceTs para exibir mensagens.
-   */
+  
   private handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage = 'Ocorreu um erro na autenticação.';
     if (error.error instanceof ErrorEvent) {
@@ -50,9 +46,9 @@ export class Auth { // Mantendo o nome da classe como 'Auth'
                          ? (error.error as any).message
                          : null;
 
-      if (error.status === 401) { // Unauthorized
+      if (error.status === 401) { // nao autorizado
         errorMessage = apiMessage || 'Credenciais inválidas. Verifique seu email e senha.';
-      } else if (error.status === 403) { // Forbidden
+      } else if (error.status === 403) { // acesso negado
         errorMessage = apiMessage || 'Acesso negado. Você não tem permissão.';
       } else {
         errorMessage = apiMessage || `Erro ${error.status}: ${error.statusText}`;

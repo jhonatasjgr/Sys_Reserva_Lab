@@ -2,29 +2,26 @@ USE sys_reserva;
 
 DELIMITER //
 
-DROP TRIGGER IF EXISTS trigger_conflito_data_reserva; -- Adicione esta linha para poder recriar o trigger
+DROP TRIGGER IF EXISTS trigger_conflito_data_reserva; -- nome da trigger
 
 CREATE TRIGGER trigger_conflito_data_reserva
 BEFORE INSERT ON reservas
 FOR EACH ROW
 BEGIN
     DECLARE conflito_encontrado INT;
-    DECLARE status_nome_pendente VARCHAR(50);
-    DECLARE status_nome_em_andamento VARCHAR(50);
-    -- DECLARE status_nome_aprovada VARCHAR(50); -- Variável para o status APROVADA - Removida
+    DECLARE status_nome_pendente VARCHAR(50); -- Variável para armazenar o nome do status PENDENTE
+    DECLARE status_nome_em_andamento VARCHAR(50); -- Variável para armazenar o nome do status EM_ANDAMENTO
 
-    -- Popula as variáveis com os nomes dos status
-    SELECT nome_status INTO status_nome_pendente FROM status_reserva WHERE id = 1; -- ID para PENDENTE
-    SELECT nome_status INTO status_nome_em_andamento FROM status_reserva WHERE id = 2; -- ID para EM_ANDAMENTO
-    -- --- NOVO: Popula a variável para o status APROVADA --- - Removida
-    -- SELECT nome_status INTO status_nome_aprovada FROM status_reserva WHERE id = 3; -- Assumindo ID 3 para APROVADA - Removida
+    -- Busca os nomes dos status PENDENTE e EM_ANDAMENTO
+    SELECT nome_status INTO status_nome_pendente FROM status_reserva WHERE id = 1; -- id de PENDENTE
+    SELECT nome_status INTO status_nome_em_andamento FROM status_reserva WHERE id = 2; -- id de EM_ANDAMENTO
 
     -- Verifica se a reserva ocorre no mesmo intervalo de horário de alguma reserva que não foi concluída nem cancelada
     SELECT COUNT(*) INTO conflito_encontrado -- quantidade de reservas nesse horário
     FROM reservas r
     JOIN status_reserva sr ON r.statusReservaId = sr.id
-    WHERE r.salaId = NEW.salaId
-      AND sr.nome_status IN (status_nome_pendente, status_nome_em_andamento) -- ALTERADO: Apenas PENDENTE e EM_ANDAMENTO
+    WHERE r.salaId = NEW.salaId -- sala da nova reserva vs sala da reserva existente
+      AND sr.nome_status IN (status_nome_pendente, status_nome_em_andamento) -- status que não foram concluídos nem cancelados
       AND (
             (NEW.dataInicio < r.dataFim AND NEW.dataFim > r.dataInicio)
           );

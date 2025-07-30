@@ -19,22 +19,22 @@ import Swal from 'sweetalert2';
 })
 export class ReservarSala implements OnInit {
 
- form: FormGroup;
+  form: FormGroup;
   salas: Sala[] = [];
   mensagemErro: string | null = null;
   mensagemSucesso: string | null = null;
 
  
   private STATUS_PENDENTE_ID = 1;
-   private USUARIO_LOGADO_ID!: any; 
+  private USUARIO_LOGADO_ID!: any; 
 
   constructor(
     private fb: FormBuilder,
     private salasService: SalaService,
     private reservasService: ReservaService,
-    private router: Router,
+    // private router: Router,
     private AuthService: Auth, 
-    private UsuarioService: Usuario
+    // private UsuarioService: Usuario
   ) {
     this.form = this.fb.group({
       salaId: [null, Validators.required],
@@ -59,7 +59,8 @@ export class ReservarSala implements OnInit {
   carregarSalas(): void {
     this.salasService.getSalas().subscribe({
       next: (data) => {
-        this.salas = data;
+        this.salas = data.sort((a, b) => a.nome.localeCompare(b.nome)); // ordenar em ordem alfabética
+        
       },
       error: (err) => {
        Swal.fire({

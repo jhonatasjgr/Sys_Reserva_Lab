@@ -33,7 +33,7 @@ form!: FormGroup;
 
   ngOnInit(): void {
     this.userService.getTiposUsuario().subscribe(
-      usuarios => {
+      usuarios => { // todo usuario criado vai receber o tipo de usuario professor
         this.TIPO_USUARIO_ID_PROFESSOR = usuarios.find(usuario => usuario.nome === 'PROFESSOR')?.id || 1; 
       }
     );

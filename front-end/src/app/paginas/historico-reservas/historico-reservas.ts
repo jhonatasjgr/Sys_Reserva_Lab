@@ -16,6 +16,7 @@ import { ReservaService } from '../../services/reserva-service';
   styleUrl: './historico-reservas.scss'
 })
 export class HistoricoReservas implements OnInit {
+
   historicoReservas: ReservaModel[] = [];
   historicoReservasFiltrado: ReservaModel[] = [];
 
@@ -32,7 +33,7 @@ export class HistoricoReservas implements OnInit {
     dataFim: ''
   };
 
-  statusDisponiveis: string[] = ['CONCLUIDA', 'CANCELADA', 'EM_ATRASO'];
+  statusDisponiveis: string[] = ['CONCLUIDA', 'CANCELADA', 'EM_ATRASO']; // mudar para pegar do banco de dados
 
   constructor(
     private reservasService: ReservaService,
@@ -40,7 +41,6 @@ export class HistoricoReservas implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('Componente inicializando...');
     this.historicoReservas = [];
     this.historicoReservasFiltrado = [];
     this.paginaAtual = 1;
@@ -51,8 +51,6 @@ export class HistoricoReservas implements OnInit {
   carregarHistoricoReservas() {
     this.reservasService.getAll(1, 1000).subscribe({
       next: (response: any) => {
-        console.log('Dados recebidos (objeto response completo):', response);
-        console.log('Tipo de response.data:', typeof response.data, 'É array?', Array.isArray(response.data));
 
         if (Array.isArray(response.data)) {
           this.historicoReservas = response.data.map((reserva:any) => ({
@@ -65,17 +63,14 @@ export class HistoricoReservas implements OnInit {
           
           this.aplicarFiltros();
         } else {
-          console.error('Erro: response.data não é um array como esperado. Conteúdo:', response.data);
           this.historicoReservas = [];
           this.historicoReservasFiltrado = [];
           this.atualizarPaginacao();
           return;
         }
 
-        console.log('Histórico de Reservas Carregado (após mapeamento):', this.historicoReservas);
       },
       error: (err) => {
-        console.error('Erro ao carregar histórico de reservas:', err);
         this.historicoReservas = [];
         this.historicoReservasFiltrado = [];
         this.atualizarPaginacao();
@@ -98,12 +93,10 @@ export class HistoricoReservas implements OnInit {
   }
 
   aplicarFiltros() {
-    console.log('=== INICIANDO APLICAÇÃO DE FILTROS ===');
     console.log('Filtros aplicados:', this.filtros);
     console.log('Dados originais:', this.historicoReservas.length);
     
     if (!this.historicoReservas || this.historicoReservas.length === 0) {
-      console.log('Nenhum dado original para filtrar');
       this.historicoReservasFiltrado = [];
       this.atualizarPaginacao();
       return;
@@ -183,7 +176,6 @@ export class HistoricoReservas implements OnInit {
     }
 
     this.historicoReservasFiltrado = reservasFiltradas;
-    console.log('=== DADOS FILTRADOS FINAIS ===', this.historicoReservasFiltrado.length);
     
     this.atualizarPaginacao();
   }
